@@ -1,5 +1,6 @@
 import sys
 import numpy as np
+import deap
 
 class Pizza:
 
@@ -31,8 +32,8 @@ class Pizza:
             i = 0
             # Load the pizza
             for line in file:
-                a = np.array(list(line)[0:len(line)-1], dtype=np.character)
-                self.matrix[i] = a
+                print(line)
+                self.matrix[i] = np.array(list(line)[:-1])
                 i+=1
 
 
@@ -42,3 +43,4 @@ if __name__ == '__main__':
         sys.exit('Usage: %s <pizza file name>' % sys.argv[0])
 
     pizza = Pizza(sys.argv[1])
+    print(pizza.matrix)
