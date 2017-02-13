@@ -1,6 +1,7 @@
 import sys
 import numpy as np
-import deap
+from deap import base, creator, tools
+from random import randint
 
 class Pizza:
 
@@ -35,6 +36,17 @@ class Pizza:
                 self.matrix[i] = np.array(list(line)[:-1])
                 i+=1
 
+    def evaluate(self, individual):
+        return sum(individual),
+
+    # generate a random slice
+    def generate_rand_slice(self):
+        r1 = randint(0, self.number_of_rows-1)
+        r2 = randint(r1, self.number_of_rows)
+        c1 = randint(0, self.number_of_columns-1)
+        c2 = randint(c1, self.number_of_columns)
+        return  r1, c1, r2, c2
+
 
 if __name__ == '__main__':
 
@@ -43,3 +55,12 @@ if __name__ == '__main__':
 
     pizza = Pizza(sys.argv[1])
     print(pizza.matrix)
+
+    # creating types
+    creator.create("FitnessMax", base.Fitness, weigths=(1.0,))
+    creator.create("Individual", list, fitness=creator.FitnessMax)
+
+    # initialize algorithm: invididuals and population
+    IND_SIZE=10
+    toolbox = base.Toolbox()
+    toolbox.register("attribute", pizza.generate_rand_slice)
