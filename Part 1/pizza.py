@@ -3,6 +3,11 @@ import numpy as np
 from deap import base, creator, tools
 from random import randint
 
+from deap import algorithms
+from deap import base
+from deap import creator
+from deap import tools
+
 class Pizza:
 
     # Constructor
@@ -16,6 +21,12 @@ class Pizza:
         print("Rows: " + str(self.number_of_rows))
         print("Columns: " + str(self.number_of_columns))
 
+    def print_results(self):
+        print("FINISH THIS")
+        #3          3 slices.
+        #0021       First slice between rows (0,2) and columns (0,1).
+        #0222       Second slice between rows (0,2) and columns (2,2).
+        #0324       Third slice between rows (0,2) and columns (3,4).
 
     def load_file(self, file_name):
 
@@ -37,6 +48,20 @@ class Pizza:
                 i+=1
 
     def evaluate(self, individual):
+
+        number_of_mushroms = 0
+        number_of_tomatos = 0
+
+        for r in range (individual.r1,individual.r2):
+            for c in range (individual.c1,individual.c2):
+                if self.matrix[r][c] == 'M':
+                    number_of_mushroms += 1
+                elif self.matrix[r][c] == 'T':
+                    number_of_tomatos += 1
+
+        if number_of_mushroms <= self.minimum_of_each_ingredient_per_slice or number_of_tomatos <= self.minimum_of_each_ingredient_per_slice:
+            return -1,
+
         return sum(individual),
 
     # generate a random slice
@@ -46,6 +71,7 @@ class Pizza:
         c1 = randint(0, self.number_of_columns-1)
         c2 = randint(c1, self.number_of_columns)
         return  r1, c1, r2, c2
+
 
 
 if __name__ == '__main__':
@@ -64,3 +90,5 @@ if __name__ == '__main__':
     IND_SIZE=10
     toolbox = base.Toolbox()
     toolbox.register("attribute", pizza.generate_rand_slice)
+
+    toolbox.register("evaluate", pizza.evaluate)
