@@ -32,7 +32,6 @@ class Pizza:
             i = 0
             # Load the pizza
             for line in file:
-                print(line)
                 self.matrix[i] = np.array(list(line)[:-1])
                 i+=1
 
