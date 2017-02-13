@@ -28,9 +28,12 @@ class Pizza:
 
             self.matrix = np.zeros((self.number_of_rows, self.number_of_columns), dtype=np.character)
 
+            i = 0
+
             for line in file:
-                a = np.array(line.split())
-                print(a)
+                a = np.array(list(line)[0:len(line)-1], dtype=np.character)
+                self.matrix[i] = a
+                i+=1
 
 
 if __name__ == '__main__':
