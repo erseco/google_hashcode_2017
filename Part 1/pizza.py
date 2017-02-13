@@ -1,17 +1,12 @@
-#!/usr/bin/env python
-
 import sys
-
+import numpy as np
 
 class Pizza:
 
     # Constructor
-    def __init__(self, rows, columns, minimum, maximum):
-        self.number_of_rows = int(rows)
-        self.number_of_columns = int(columns)
-        self.minimum_of_each_ingredient_per_slice = int(minimum)
-        self.maximum_of_cells_per_slice = int(maximum)
-        self.matrix = [[0 for i in xrange(self.number_of_rows)] for i in xrange(self.number_of_columns)]
+    def __init__(self, file_name):
+        # Load the file and construct the matrix
+        self.load_file(file_name)
 
 
     # Methods
@@ -20,15 +15,27 @@ class Pizza:
         print("Columns: " + str(self.number_of_columns))
 
 
-with open(sys.argv[1], 'r') as file:
+    def load_file(self, file_name):
 
-    header = file.readline().split(' ')
+        with open(file_name) as file:
 
-    pizza = Pizza(header[0], header[1], header[2], header[3])
+            header = file.readline().split(' ')
 
-    print(file.read())
+            self.number_of_rows = int(header[0])
+            self.number_of_columns = int(header[1])
+            self.minimum_of_each_ingredient_per_slice = int(header[2])
+            self.maximum_of_cells_per_slice = int(header[3])
 
-    pizza.print_info()
+            self.matrix = np.zeros((self.number_of_rows, self.number_of_columns), dtype=np.character)
+
+            for line in file:
+                a = np.array(line.split())
+                print(a)
 
 
+if __name__ == '__main__':
 
+    if len(sys.argv) < 2:
+        sys.exit('Usage: %s <pizza file name>' % sys.argv[0])
+
+    pizza = Pizza(sys.argv[1])
