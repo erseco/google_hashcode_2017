@@ -73,6 +73,13 @@ class Pizza:
 
         return pizza_points,
 
+    def mutate(individual):
+
+        # TO-DO
+
+        return individual,
+
+
     # generate a random slice
     def generate_rand_slice(self):
         r1 = randint(0, self.number_of_rows-1)
@@ -101,3 +108,13 @@ if __name__ == '__main__':
     toolbox.register("attribute", pizza.generate_rand_slice)
 
     toolbox.register("evaluate", pizza.evaluate)
+    toolbox.register("mutate", pizza.mutate)
+    toolbox.register("select", tools.selNSGA2) # maybe we can use the pre-set operators
+
+    toolbox.register("population", tools.initRepeat, list, toolbox.individual)
+
+
+    population = toolbox.population(n=100)
+
+    algorithms.eaSimple(population, toolbox, cxpb=0.5, mutpb=0.2, ngen=50)
+
