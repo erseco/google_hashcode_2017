@@ -25,6 +25,8 @@ from deap import base
 from deap import creator
 from deap import tools
 
+import pprint
+
 IND_INIT_SIZE = 5
 MAX_ITEM = 50
 MAX_WEIGHT = 50
@@ -40,6 +42,10 @@ items = {}
 # Create random items and store them in the items' dictionary.
 for i in range(NBR_ITEMS):
     items[i] = (random.randint(1, 10), random.uniform(0, 100))
+
+
+pprint.pprint(items)
+exit()
 
 creator.create("Fitness", base.Fitness, weights=(-1.0, 1.0))
 creator.create("Individual", set, fitness=creator.Fitness)

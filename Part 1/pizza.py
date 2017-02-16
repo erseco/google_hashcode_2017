@@ -49,20 +49,29 @@ class Pizza:
 
     def evaluate(self, individual):
 
-        number_of_mushroms = 0
-        number_of_tomatos = 0
+        pizza_points = 0
 
-        for r in range (individual.r1,individual.r2):
-            for c in range (individual.c1,individual.c2):
-                if self.matrix[r][c] == 'M':
-                    number_of_mushroms += 1
-                elif self.matrix[r][c] == 'T':
-                    number_of_tomatos += 1
+        for item in individual:
 
-        if number_of_mushroms <= self.minimum_of_each_ingredient_per_slice or number_of_tomatos <= self.minimum_of_each_ingredient_per_slice:
-            return -1,
+            slice_points = 0
 
-        return sum(individual),
+            number_of_mushroms = 0
+            number_of_tomatos = 0
+
+            for r in range (item.r1,item.r2):
+                for c in range (item.c1,item.c2):
+                    if self.matrix[r][c] == 'M':
+                        number_of_mushroms += 1
+                    elif self.matrix[r][c] == 'T':
+                        number_of_tomatos += 1
+
+            if number_of_mushroms >= self.minimum_of_each_ingredient_per_slice or number_of_tomatos >= self.minimum_of_each_ingredient_per_slice:
+                slice_points = sum(item)
+
+            pizza_points += slice_points
+
+
+        return pizza_points,
 
     # generate a random slice
     def generate_rand_slice(self):
