@@ -65,7 +65,7 @@ class Pizza:
                     elif self.matrix[r][c] == 'T':
                         number_of_tomatos += 1
 
-            if number_of_mushroms >= self.minimum_of_each_ingredient_per_slice or number_of_tomatos >= self.minimum_of_each_ingredient_per_slice:
+            if number_of_mushroms >= self.minimum_of_each_ingredient_per_slice and number_of_tomatos >= self.minimum_of_each_ingredient_per_slice:
                 slice_points = sum(item)
 
             pizza_points += slice_points
