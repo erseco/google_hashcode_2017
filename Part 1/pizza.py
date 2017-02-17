@@ -106,7 +106,7 @@ if __name__ == '__main__':
     IND_SIZE=10
     toolbox = base.Toolbox()
     toolbox.register("attribute", pizza.generate_rand_slice)
-
+    toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attribute, 100)
     toolbox.register("evaluate", pizza.evaluate)
     toolbox.register("mutate", pizza.mutate)
     toolbox.register("select", tools.selNSGA2) # maybe we can use the pre-set operators
