@@ -73,7 +73,7 @@ class Pizza:
 
         return pizza_points,
 
-    def mutate(individual):
+    def mutate(self, individual):
 
         # TO-DO
 
@@ -109,7 +109,10 @@ if __name__ == '__main__':
 
     toolbox.register("evaluate", pizza.evaluate)
     toolbox.register("mutate", pizza.mutate)
-    toolbox.register("select", tools.selNSGA2) # maybe we can use the pre-set operators
+
+
+    toolbox.register("select", tools.selBest) # maybe we can use the pre-set operators
+    #toolbox.register("select", tools.selNSGA2) # maybe we can use the pre-set operators
 
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
