@@ -114,7 +114,7 @@ if __name__ == '__main__':
     toolbox.register("select", tools.selBest) # maybe we can use the pre-set operators
     #toolbox.register("select", tools.selNSGA2) # maybe we can use the pre-set operators
 
-    toolbox.register("population", tools.initRepeat, list, toolbox.individual)
+    #toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
 
     population = toolbox.population(n=100)
