@@ -116,6 +116,5 @@ if __name__ == '__main__':
 
     #toolbox.register("population", tools.initRepeat, list, toolbox.individual)
     #population = toolbox.population(n=100)
-
-    algorithms.eaSimple(population, toolbox, cxpb=0.5, mutpb=0.2, ngen=50)
+    #algorithms.eaSimple(population, toolbox, cxpb=0.5, mutpb=0.2, ngen=50)
 
