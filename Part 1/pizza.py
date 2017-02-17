@@ -103,10 +103,10 @@ if __name__ == '__main__':
     creator.create("Individual", list, fitness=creator.FitnessMax)
 
     # initialize algorithm: invididuals and population
-    IND_SIZE=10
+    IND_INIT_SIZE=100
     toolbox = base.Toolbox()
     toolbox.register("attribute", pizza.generate_rand_slice)
-    toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attribute, 100)
+    toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attribute, IND_INIT_SIZE)
     toolbox.register("evaluate", pizza.evaluate)
     toolbox.register("mutate", pizza.mutate)
 
@@ -114,7 +114,9 @@ if __name__ == '__main__':
     toolbox.register("select", tools.selBest) # maybe we can use the pre-set operators
     #toolbox.register("select", tools.selNSGA2) # maybe we can use the pre-set operators
 
-    #toolbox.register("population", tools.initRepeat, list, toolbox.individual)
+
+    toolbox.register("population", tools.initRepeat, list, toolbox.individual)
+
     #population = toolbox.population(n=100)
     #algorithms.eaSimple(population, toolbox, cxpb=0.5, mutpb=0.2, ngen=50)
 
