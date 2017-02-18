@@ -1,0 +1,7 @@
+La forma de generar los archivos con las soluciones está un poco cutre, así que para que funcione bien hay que ejecutar el programa a través de los scripts, no directamente.
+
+Situarse en la carpeta scripts y ejecutar cualquiera de ellos (quizá tengáis que darle permisos) seguido del número de soluciones que se quiere generar. Las soluciones se generan en la carpeta sol (así que mejor copiar la carpeta greedy en local para no llenar el github de soluciones).
+
+No creo que funcione en plataformas que no sean Linux (prueba en mac a ver).
+
+Cuando tenga un rato y ganas lo arreglo (o no :P).
