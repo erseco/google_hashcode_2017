@@ -96,27 +96,26 @@ if __name__ == '__main__':
         sys.exit('Usage: %s <pizza file name>' % sys.argv[0])
 
     pizza = Pizza(sys.argv[1])
-    print(pizza.matrix)
+    # print(pizza.matrix)
 
     # creating types
-    creator.create("FitnessMax", base.Fitness, weigths=(1.0,))
+    creator.create("FitnessMax", base.Fitness, weights=(1.0,))
     creator.create("Individual", list, fitness=creator.FitnessMax)
 
     # initialize algorithm: invididuals and population
     IND_INIT_SIZE=100
     toolbox = base.Toolbox()
     toolbox.register("attribute", pizza.generate_rand_slice)
-    toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attribute, IND_INIT_SIZE)
-    toolbox.register("evaluate", pizza.evaluate)
-    toolbox.register("mutate", pizza.mutate)
-
-
-    toolbox.register("select", tools.selBest) # maybe we can use the pre-set operators
-    #toolbox.register("select", tools.selNSGA2) # maybe we can use the pre-set operators
-
-
+    toolbox.register("individual", tools.initRepeat, creator.Individual, 
+                     toolbox.attribute, IND_INIT_SIZE)
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
-    #population = toolbox.population(n=100)
-    #algorithms.eaSimple(population, toolbox, cxpb=0.5, mutpb=0.2, ngen=50)
+    toolbox.register("evaluate", pizza.evaluate)
+    toolbox.register("mate", tools.cxTwoPoint)
+    toolbox.register("mutate", pizza.mutate)
+    toolbox.register("select", tools.selBest) # use the pre-set operators
+    #toolbox.register("select", tools.selNSGA2) # use the pre-set operators
+
+    population = toolbox.population(n=100)
+    algorithms.eaSimple(population, toolbox, cxpb=0.5, mutpb=0.2, ngen=50)
 
