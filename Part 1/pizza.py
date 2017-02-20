@@ -58,8 +58,8 @@ class Pizza:
             number_of_mushroms = 0
             number_of_tomatos = 0
 
-            for r in range (item.r1,item.r2):
-                for c in range (item.c1,item.c2):
+            for r in range(item[0],item[2]):
+                for c in range (item[1],item[3]):
                     if self.matrix[r][c] == 'M':
                         number_of_mushroms += 1
                     elif self.matrix[r][c] == 'T':
