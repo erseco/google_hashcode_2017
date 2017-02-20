@@ -83,9 +83,9 @@ class Pizza:
     # generate a random slice
     def generate_rand_slice(self):
         r1 = randint(0, self.number_of_rows-1)
-        r2 = randint(r1, self.number_of_rows)
+        r2 = randint(r1+1, self.number_of_rows)
         c1 = randint(0, self.number_of_columns-1)
-        c2 = randint(c1, self.number_of_columns)
+        c2 = randint(c1+1, self.number_of_columns)
         return  r1, c1, r2, c2
 
 
