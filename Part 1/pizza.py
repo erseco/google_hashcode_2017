@@ -47,9 +47,32 @@ class Pizza:
                 self.matrix[i] = np.array(list(line)[:-1])
                 i+=1
 
+
+    """
+    Removes overlaping slices in one individual
+    """
+    def overlap(self, individual):
+        # create an occupation matrix
+        occup = np.zeros((self.number_of_rows, self.number_of_columns), dtype=bool)
+        to_remove = []
+        for i in range(len(individual)):
+            slice = individual[i]
+            if (occup[slice[0]:slice[2], slice[1]:slice[3]] == False).all():
+                occup[slice[0]:slice[2], slice[1]:slice[3]] = True
+            else:
+                to_remove.append(i)
+
+        for i in range(len(to_remove)):
+            del individual[to_remove[i] - i]
+
+        print(individual)
+
+
     def evaluate(self, individual):
 
         pizza_points = 0
+
+        self.overlap(individual)
 
         for item in individual:
 
@@ -65,7 +88,8 @@ class Pizza:
                     elif self.matrix[r][c] == 'T':
                         number_of_tomatos += 1
 
-            if number_of_mushroms >= self.minimum_of_each_ingredient_per_slice and number_of_tomatos >= self.minimum_of_each_ingredient_per_slice:
+            if number_of_mushroms >= self.minimum_of_each_ingredient_per_slice \
+               and number_of_tomatos >= self.minimum_of_each_ingredient_per_slice:
                 slice_points = sum(item)
 
             pizza_points += slice_points
@@ -82,12 +106,18 @@ class Pizza:
 
     # generate a random slice
     def generate_rand_slice(self):
-        r1 = randint(0, self.number_of_rows-1)
-        r2 = randint(r1+1, self.number_of_rows)
-        c1 = randint(0, self.number_of_columns-1)
-        c2 = randint(c1+1, self.number_of_columns)
-        return  r1, c1, r2, c2
+        nelems = np.Infinity
+        while nelems > self.maximum_of_cells_per_slice:
+            r1 = randint(0, self.number_of_rows-2)
+            r2 = randint(r1+1, self.number_of_rows-1)
+            c1 = randint(0, self.number_of_columns-2)
+            c2 = randint(c1+1, self.number_of_columns-1)
+            # check the slice generated is not bigger than maximum size
+            nrows = (r2 - r1)+1
+            ncols = (c2 - c1)+1
+            nelems = nrows*ncols
 
+        return  r1, c1, r2, c2
 
 
 if __name__ == '__main__':
@@ -103,7 +133,7 @@ if __name__ == '__main__':
     creator.create("Individual", list, fitness=creator.FitnessMax)
 
     # initialize algorithm: invididuals and population
-    IND_INIT_SIZE=100
+    IND_INIT_SIZE=pizza.number_of_rows*pizza.number_of_columns
     toolbox = base.Toolbox()
     toolbox.register("attribute", pizza.generate_rand_slice)
     toolbox.register("individual", tools.initRepeat, creator.Individual, 
