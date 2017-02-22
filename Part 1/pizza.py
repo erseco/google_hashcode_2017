@@ -78,11 +78,13 @@ class Pizza:
 
     # generate a random slice
     def generate_rand_slice(self, bool_matrix):
-        nelems = np.Infinity
         have_enough_ingrs = False
         not_taken = True
-        while nelems > self.maximum_of_cells_per_slice and not have_enough_ingrs\
-                and not_taken:
+        more_than_max_cells = True
+        while more_than_max_cells and not have_enough_ingrs and not_taken:
+            have_enough_ingrs = False
+            not_taken = True
+            more_than_max_cells = True
             r1 = randint(0, self.number_of_rows - 2)
             r2 = randint(r1 + 1, self.number_of_rows - 1)
             c1 = randint(0, self.number_of_columns - 2)
@@ -102,10 +104,16 @@ class Pizza:
                             n_tomatos >= self.minimum_of_each_ingredient_per_slice:
                 have_enough_ingrs = True
 
+            print(bool_matrix[r1:r2+1, c1:c2+1] == False)
+            print((bool_matrix[r1:r2+1, c1:c2+1] == False).all())
+
             if (bool_matrix[r1:r2+1, c1:c2+1] == False).all():
                 not_taken = False
+                bool_matrix[r1:r2+1, c1:c2+1] = True
 
-        bool_matrix[r1:r2+1, c1:c2+1] = True
+            if nelems <= self.maximum_of_cells_per_slice:
+                more_than_max_cells = False
+
 
         return r1, c1, r2, c2
 
