@@ -72,7 +72,9 @@ class Pizza:
                                dtype=bool)
         pizza_slices = []
         for i in range(n_iter):
-            pizza_slices.append(self.generate_rand_slice(bool_matrix))
+            rand_slice = self.generate_rand_slice(bool_matrix)
+            if rand_slice[0] != -1:
+                pizza_slices.append(rand_slice)
 
         return pizza_slices
 
@@ -125,6 +127,8 @@ class Pizza:
 
         else:
             return r1, c1, r2, c2
+
+        return -1,
 
 
     def mutate(self, individual):
