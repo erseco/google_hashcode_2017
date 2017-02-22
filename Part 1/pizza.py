@@ -48,23 +48,27 @@ class Pizza:
 
     def evaluate(self, individual):
         pizza_points = 0
-
+        nelems = 0
+        slice_points = 0
+        
         for item in individual:
+            # Unpack the index
+            r1, c1, r2, c2 = item
+            print("Cachos de pizza:", item)
+            # Get the size of the slice
+            nelems += ((r2 - r1) + 1) * ((c2 - c1) + 1)
 
-            slice_points = 0
-
-            n_tomatos = len(np.where(self.matrix[item[0]:item[2]+1, 
-                                    item[1]:item[3]+1] == b'T'))
-            n_mushroms = len(np.where(self.matrix[item[0]:item[2]+1, 
-                                    item[1]:item[3]+1] == b'M'))
+            n_tomatos = len(np.where(self.matrix[r1:r2+1, c1:c2+1] == b'T'))
+            n_mushroms = len(np.where(self.matrix[r1:r2+1, c1:c2+1] == b'M'))
 
             if n_mushroms >= self.minimum_of_each_ingredient_per_slice \
                 and n_tomatos >= self.minimum_of_each_ingredient_per_slice:
-                slice_points = sum(item)
+                slice_points += (n_tomatos+n_mushroms)
 
-            pizza_points += slice_points
-
-
+        print("Puntos de los cachos:", slice_points)
+        print("Cachos en blanco",self.matrix.size - nelems)
+        pizza_points += slice_points*(self.matrix.size - nelems)
+        print("Puntos de la pizza:", pizza_points)
         return pizza_points,
 
     def generate_rand_slices(self, n_iter):
@@ -98,18 +102,12 @@ class Pizza:
             ncols = (c2 - c1) + 1
             nelems = nrows * ncols
 
-            # print(r1, c1, r2, c2, nelems)
-            # print(bool_matrix)
-
             n_tomatos = len(np.where(self.matrix[r1:r2+1, c1:c2+1] == b'T'))
             n_mushroms = len(np.where(self.matrix[r1:r2+1, c1:c2+1] == b'M'))
 
             if n_mushroms >= self.minimum_of_each_ingredient_per_slice and \
                             n_tomatos >= self.minimum_of_each_ingredient_per_slice:
                 not_have_enough_ingrs = False
-
-            # print(bool_matrix[r1:r2+1, c1:c2+1] == False)
-            # print((bool_matrix[r1:r2+1, c1:c2+1] == False).all())
 
             if (bool_matrix[r1:r2+1, c1:c2+1] == False).all():
                 not_taken = False
@@ -120,10 +118,6 @@ class Pizza:
 
             if n_attemps > max_attemps:
                 break
-
-            # print("not_have_enough_ingrs: ", not_have_enough_ingrs)
-            # print("not taken: ", not_taken)
-            # print("more_than_max_cells: ", more_than_max_cells)
 
         else:
             return r1, c1, r2, c2
