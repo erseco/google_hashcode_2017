@@ -43,7 +43,7 @@ class Pizza:
 
             self.matrix = np.zeros((self.number_of_rows, self.number_of_columns), dtype=np.character)
 
-            self.bool_matrix = np.full((self.number_of_rows, self.number_of_columns), False, dtype=np.bool)
+            # self.bool_matrix = np.full((self.number_of_rows, self.number_of_columns), False, dtype=np.bool)
 
             i = 0
             # Load the pizza
@@ -52,24 +52,19 @@ class Pizza:
                 i+=1
 
     def evaluate(self, individual):
-
         pizza_points = 0
 
         for item in individual:
 
             slice_points = 0
 
-            number_of_mushroms = 0
-            number_of_tomatos = 0
+            n_tomatos = len(np.where(self.matrix[item[0]:item[2]+1, 
+                                    item[1]:item[3]+1] == b'T'))
+            n_mushroms = len(np.where(self.matrix[item[0]:item[2]+1, 
+                                    item[1]:item[3]+1] == b'M'))
 
-            for r in range(item[0],item[2]+1):
-                for c in range (item[1],item[3]+1):
-                    if self.matrix[r, c] == 'M':
-                        number_of_mushroms += 1
-                    elif self.matrix[r, c] == 'T':
-                        number_of_tomatos += 1
-
-            if number_of_mushroms >= self.minimum_of_each_ingredient_per_slice and number_of_tomatos >= self.minimum_of_each_ingredient_per_slice:
+            if n_mushroms >= self.minimum_of_each_ingredient_per_slice \
+                and n_tomatos >= self.minimum_of_each_ingredient_per_slice:
                 slice_points = sum(item)
 
             pizza_points += slice_points
@@ -78,8 +73,17 @@ class Pizza:
         return pizza_points,
 
 
+    def generate_rand_slices(self, n_iter):
+        bool_matrix = np.zeros((self.number_of_rows, self.number_of_columns),
+                               dtype=bool)
+        pizza_slices = []
+        for i in range(n_iter):
+            pizza_slices.append(self.generate_rand_slice(bool_matrix))
+
+        return pizza_slices
+
     # generate a random slice
-    def generate_rand_slice(self):
+    def generate_rand_slice(self, bool_matrix):
         nelems = np.Infinity
         have_enough_ingrs = False
         not_taken = True
@@ -94,51 +98,52 @@ class Pizza:
             ncols = (c2 - c1) + 1
             nelems = nrows * ncols
 
-            n_tomatos = len(np.where(self.matrix[r1:r2+1, c1:c2+1] == 'T'))
-            n_mushroms = len(np.where(self.matrix[r1:r2, c1:c2] == 'M'))
+            print(r1, c1, r2, c2, nelems)
+            print(bool_matrix)
+
+            n_tomatos = len(np.where(self.matrix[r1:r2+1, c1:c2+1] == b'T'))
+            n_mushroms = len(np.where(self.matrix[r1:r2+1, c1:c2+1] == b'M'))
 
             if n_mushroms >= self.minimum_of_each_ingredient_per_slice and \
                             n_tomatos >= self.minimum_of_each_ingredient_per_slice:
                 have_enough_ingrs = True
 
 
-            if np.any(self.bool_matrix[r1:r2+1, c1:c2+1]):
+            if (bool_matrix[r1:r2+1, c1:c2+1] == False).all():
                 not_taken = False
 
-        self.bool_matrix[r1:r2+1, c1:c2+1] = True
+        bool_matrix[r1:r2+1, c1:c2+1] = True
 
         return r1, c1, r2, c2
 
 
     def mutate(self, individual):
+        # contract = randint(0,3)
+        # slice= randint(0, len(individual))
+        # if contract == 1:
+        #     # Eliminate the upper row of the slice
+        #     self.bool_matrix[individual[slice][0], individual[slice][1]:individual[slice][3]+1] = False
+        #     a, b, c, d = individual[slice]
+        #     individual[slice] = (a+1, b, c, d)
 
-        contract = randint(0,3)
-        slice= randint(0, len(individual))
-        if contract == 1:
-            # Eliminate the upper row of the slice
-            self.bool_matrix[individual[slice][0], individual[slice][1]:individual[slice][3]+1] = False
-            a, b, c, d = individual[slice]
-            individual[slice] = (a+1, b, c, d)
+        # elif contract == 2:
+        #     # Eliminate the last row of the slice
+        #     self.bool_matrix[individual[slice][2], individual[slice][1]:individual[slice][3] + 1] = False
+        #     a, b, c, d = individual[slice]
+        #     individual[slice] = (a, b, c-1, d)
 
-        elif contract == 2:
-            # Eliminate the last row of the slice
-            self.bool_matrix[individual[slice][2], individual[slice][1]:individual[slice][3] + 1] = False
-            a, b, c, d = individual[slice]
-            individual[slice] = (a, b, c-1, d)
+        # elif contract == 3:
+        #     # Eliminate the left column of the slice
+        #     self.bool_matrix[individual[slice][0]:individual[slice][2] + 1, individual[slice][1]] = False
+        #     a, b, c, d = individual[slice]
+        #     individual[slice] = (a, b+1, c, d)
 
-        elif contract == 3:
-            # Eliminate the left column of the slice
-            self.bool_matrix[individual[slice][0]:individual[slice][2] + 1, individual[slice][1]] = False
-            a, b, c, d = individual[slice]
-            individual[slice] = (a, b+1, c, d)
-
-        else:
-            # Eliminate the right column of the slice
-            self.bool_matrix[individual[slice][0]:individual[slice][2] + 1, individual[slice][3]] = False
-            a, b, c, d = individual[slice]
-            individual[slice] = (a, b, c, d-1)
-
-
+        # else:
+        #     # Eliminate the right column of the slice
+        #     self.bool_matrix[individual[slice][0]:individual[slice][2] + 1, individual[slice][3]] = False
+        #     a, b, c, d = individual[slice]
+        #     individual[slice] = (a, b, c, d-1)
+        return individual,
 
 
 
@@ -152,14 +157,14 @@ if __name__ == '__main__':
 
     # creating types
     creator.create("FitnessMax", base.Fitness, weights=(1.0,))
-    creator.create("Individual", list, fitness=creator.FitnessMax)
+    creator.create("Individual", set, fitness=creator.FitnessMax)
 
     # initialize algorithm: invididuals and population
     IND_INIT_SIZE=ceil(pizza.matrix.size/pizza.maximum_of_cells_per_slice)
     toolbox = base.Toolbox()
-    toolbox.register("attribute", pizza.generate_rand_slice)
-    toolbox.register("individual", tools.initRepeat, creator.Individual, 
-                     toolbox.attribute, IND_INIT_SIZE)
+    toolbox.register("attribute", pizza.generate_rand_slices, IND_INIT_SIZE)
+    toolbox.register("individual", tools.initIterate, creator.Individual, 
+                     toolbox.attribute)
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
     toolbox.register("evaluate", pizza.evaluate)
@@ -168,6 +173,7 @@ if __name__ == '__main__':
     toolbox.register("select", tools.selBest) # use the pre-set operators
     #toolbox.register("select", tools.selNSGA2) # use the pre-set operators
 
-    population = toolbox.population(n=100)
+    population = toolbox.population(n=1)
+    print(population)
     algorithms.eaSimple(population, toolbox, cxpb=0.5, mutpb=0.2, ngen=50)
 
