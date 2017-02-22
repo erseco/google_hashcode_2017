@@ -153,6 +153,10 @@ class Pizza:
         #     individual[slice] = (a, b, c, d-1)
         return individual,
 
+    def mate(self, ind1, ind2):
+        # TO-DO
+        return ind1, ind2
+
 if __name__ == '__main__':
 
     if len(sys.argv) < 2:
@@ -166,7 +170,7 @@ if __name__ == '__main__':
     creator.create("Individual", set, fitness=creator.FitnessMax)
 
     # initialize algorithm: invididuals and population
-    IND_INIT_SIZE=ceil(pizza.matrix.size/pizza.maximum_of_cells_per_slice)
+    IND_INIT_SIZE=ceil(pizza.matrix.size/pizza.maximum_of_cells_per_slice)*100
     toolbox = base.Toolbox()
     toolbox.register("attribute", pizza.generate_rand_slices, IND_INIT_SIZE)
     toolbox.register("individual", tools.initIterate, creator.Individual, 
@@ -174,12 +178,12 @@ if __name__ == '__main__':
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
     toolbox.register("evaluate", pizza.evaluate)
-    toolbox.register("mate", tools.cxTwoPoint)
+    toolbox.register("mate", pizza.mate)
     toolbox.register("mutate", pizza.mutate)
     toolbox.register("select", tools.selBest) # use the pre-set operators
     #toolbox.register("select", tools.selNSGA2) # use the pre-set operators
 
-    population = toolbox.population(n=1)
+    population = toolbox.population(n=5)
     print(population)
     algorithms.eaSimple(population, toolbox, cxpb=0.5, mutpb=0.2, ngen=50)
 
