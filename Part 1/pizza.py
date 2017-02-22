@@ -77,12 +77,14 @@ class Pizza:
         return pizza_slices
 
     # generate a random slice
-    def generate_rand_slice(self, bool_matrix):
-        have_enough_ingrs = False
+    def generate_rand_slice(self, bool_matrix, max_attemps=50):
+        not_have_enough_ingrs = True
         not_taken = True
         more_than_max_cells = True
-        while more_than_max_cells and not have_enough_ingrs and not_taken:
-            have_enough_ingrs = False
+        n_attemps = 0
+        while (more_than_max_cells or not_have_enough_ingrs or not_taken):
+            n_attemps += 1
+            not_have_enough_ingrs = True
             not_taken = True
             more_than_max_cells = True
             r1 = randint(0, self.number_of_rows - 2)
@@ -94,18 +96,18 @@ class Pizza:
             ncols = (c2 - c1) + 1
             nelems = nrows * ncols
 
-            print(r1, c1, r2, c2, nelems)
-            print(bool_matrix)
+            # print(r1, c1, r2, c2, nelems)
+            # print(bool_matrix)
 
             n_tomatos = len(np.where(self.matrix[r1:r2+1, c1:c2+1] == b'T'))
             n_mushroms = len(np.where(self.matrix[r1:r2+1, c1:c2+1] == b'M'))
 
             if n_mushroms >= self.minimum_of_each_ingredient_per_slice and \
                             n_tomatos >= self.minimum_of_each_ingredient_per_slice:
-                have_enough_ingrs = True
+                not_have_enough_ingrs = False
 
-            print(bool_matrix[r1:r2+1, c1:c2+1] == False)
-            print((bool_matrix[r1:r2+1, c1:c2+1] == False).all())
+            # print(bool_matrix[r1:r2+1, c1:c2+1] == False)
+            # print((bool_matrix[r1:r2+1, c1:c2+1] == False).all())
 
             if (bool_matrix[r1:r2+1, c1:c2+1] == False).all():
                 not_taken = False
@@ -114,8 +116,15 @@ class Pizza:
             if nelems <= self.maximum_of_cells_per_slice:
                 more_than_max_cells = False
 
+            if n_attemps > max_attemps:
+                break
 
-        return r1, c1, r2, c2
+            # print("not_have_enough_ingrs: ", not_have_enough_ingrs)
+            # print("not taken: ", not_taken)
+            # print("more_than_max_cells: ", more_than_max_cells)
+
+        else:
+            return r1, c1, r2, c2
 
 
     def mutate(self, individual):
