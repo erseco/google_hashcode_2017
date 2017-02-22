@@ -50,7 +50,7 @@ class Pizza:
         pizza_points = 0
         nelems = 0
         slice_points = 0
-        
+
         for item in individual:
             # Unpack the index
             r1, c1, r2, c2 = item
@@ -179,7 +179,7 @@ if __name__ == '__main__':
     toolbox.register("select", tools.selBest) # use the pre-set operators
     #toolbox.register("select", tools.selNSGA2) # use the pre-set operators
 
-    population = toolbox.population(n=1)
+    population = toolbox.population(n=100)
     print(population)
     algorithms.eaSimple(population, toolbox, cxpb=0.5, mutpb=0.2, ngen=50)
 
