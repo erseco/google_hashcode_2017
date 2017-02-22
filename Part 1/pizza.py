@@ -77,7 +77,6 @@ class Pizza:
 
         return pizza_points,
 
-
     # generate a random slice
     def generate_rand_slice(self):
         nelems = np.Infinity
@@ -101,7 +100,6 @@ class Pizza:
                             n_tomatos >= self.minimum_of_each_ingredient_per_slice:
                 have_enough_ingrs = True
 
-
             if np.any(self.bool_matrix[r1:r2+1, c1:c2+1]):
                 not_taken = False
 
@@ -113,34 +111,35 @@ class Pizza:
     def mutate(self, individual):
 
         contract = randint(0,3)
-        slice= randint(0, len(individual))
-        if contract == 1:
+        slice = randint(0, len(individual)-1)
+
+        print("contract = ", contract, " slice = ", slice)
+
+        if contract == 0:
             # Eliminate the upper row of the slice
             self.bool_matrix[individual[slice][0], individual[slice][1]:individual[slice][3]+1] = False
             a, b, c, d = individual[slice]
             individual[slice] = (a+1, b, c, d)
 
         elif contract == 2:
-            # Eliminate the last row of the slice
-            self.bool_matrix[individual[slice][2], individual[slice][1]:individual[slice][3] + 1] = False
-            a, b, c, d = individual[slice]
-            individual[slice] = (a, b, c-1, d)
-
-        elif contract == 3:
             # Eliminate the left column of the slice
             self.bool_matrix[individual[slice][0]:individual[slice][2] + 1, individual[slice][1]] = False
             a, b, c, d = individual[slice]
             individual[slice] = (a, b+1, c, d)
 
-        else:
+        elif contract == 3:
+            # Eliminate the last row of the slice
+            self.bool_matrix[individual[slice][2], individual[slice][1]:individual[slice][3] + 1] = False
+            a, b, c, d = individual[slice]
+            individual[slice] = (a, b, c-1, d)
+
+        elif contract == 4:
             # Eliminate the right column of the slice
             self.bool_matrix[individual[slice][0]:individual[slice][2] + 1, individual[slice][3]] = False
             a, b, c, d = individual[slice]
             individual[slice] = (a, b, c, d-1)
 
-
-
-
+        return individual,
 
 if __name__ == '__main__':
 
@@ -169,5 +168,5 @@ if __name__ == '__main__':
     #toolbox.register("select", tools.selNSGA2) # use the pre-set operators
 
     population = toolbox.population(n=100)
-    algorithms.eaSimple(population, toolbox, cxpb=0.5, mutpb=0.2, ngen=50)
+    algorithms.eaSimple(population, toolbox, cxpb=0.75, mutpb=0.05, ngen=50)
 
