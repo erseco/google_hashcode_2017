@@ -1,14 +1,9 @@
 import sys
 import numpy as np
-from deap import base, creator, tools
+from deap import base, creator, tools, algorithms
 from random import randint
 
 from math import ceil
-
-from deap import algorithms
-from deap import base
-from deap import creator
-from deap import tools
 
 class Pizza:
 
@@ -72,7 +67,6 @@ class Pizza:
 
         return pizza_points,
 
-
     def generate_rand_slices(self, n_iter):
         bool_matrix = np.zeros((self.number_of_rows, self.number_of_columns),
                                dtype=bool)
@@ -107,7 +101,6 @@ class Pizza:
             if n_mushroms >= self.minimum_of_each_ingredient_per_slice and \
                             n_tomatos >= self.minimum_of_each_ingredient_per_slice:
                 have_enough_ingrs = True
-
 
             if (bool_matrix[r1:r2+1, c1:c2+1] == False).all():
                 not_taken = False
@@ -144,8 +137,6 @@ class Pizza:
         #     a, b, c, d = individual[slice]
         #     individual[slice] = (a, b, c, d-1)
         return individual,
-
-
 
 if __name__ == '__main__':
 
