@@ -114,7 +114,7 @@ bool readAndFill(const char* path){
 
         endPoints[i].caches = vector<CacheConectada>(endPoints[i].numCaches);
 
-        for (int j = 0; j < endPoints[i].numCaches; ++i){
+        for (int j = 0; j < endPoints[i].numCaches; ++j){
 
             if(fscanf (f, "%i", &endPoints[i].caches[j].id) != 1){
                 printf("Error reading file 9\n");
@@ -155,13 +155,13 @@ bool readAndFill(const char* path){
 
 }
 
-// void ordenarTodo(){
-//  sort(endPoints.begin(), endPoints.end());
-//  for(unsigned int i = 0; i < endPoints.size(); ++i){
-//    sort(endPoints[i].caches.begin(), endPoints[i].caches.end());
-//    sort(endPoints[i].videoPedido.begin(), endPoints[i].videoPedido.end());
-//  }
-// }
+void ordenarTodo(){
+ sort(endPoints.begin(), endPoints.end());
+ for(unsigned int i = 0; i < endPoints.size(); ++i){
+   sort(endPoints[i].caches.begin(), endPoints[i].caches.end());
+   sort(endPoints[i].videoPedido.begin(), endPoints[i].videoPedido.end());
+ }
+}
 
 void rellenaPedidosEnEndPoints(){
   //cout << requestsComprimido.size() << endl;
@@ -225,13 +225,12 @@ int main(int argc, char const *argv[]) {
   }
   rellenaPedidosEnEndPoints();
   CrearCaches();
-  // ordenarTodo();
+  ordenarTodo();
 
   cout << "prueba" << endl;
   for (unsigned int i = 0; i < endPoints.size(); ++i){
     cout << endPoints.size() << endl;
   }
-
 
   return 0;
 }
