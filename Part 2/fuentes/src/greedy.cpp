@@ -17,7 +17,7 @@ struct CacheReal{
   vector<int> videosEnCache;;
 };
 
-struct Cache{
+struct Cacpuhe{
   int id;
   int latencia;
 };
@@ -215,25 +215,6 @@ int main(int argc, char const *argv[]) {
     exit (1);
   }
   readAndFill(argv[1]);
-<<<<<<< HEAD
-  // cout << "requests" << endl;
-  // for (int i = 0; i < requests.size(); ++i){
-  //   cout << requests[i].idVideo << " " <<requests[i].idEndPoint << " " <<requests[i].numRequestsVideo  << endl;
-  // }
-  // // comprimeRequests();
-  // cout << "requests Comprimidos" << endl;
-  // for (int i = 0; i < requests.size(); ++i){
-  //   cout << requests[i].idVideo << " " <<requests[i].idEndPoint << " " <<requests[i].numRequestsVideo  << endl;
-  // }
-  // rellenaPedidosEnEndPoints();
-  // CrearCaches();
-  // // ordenarTodo();
-
-  // cout << "prueba" << endl;
-  // for (unsigned int i = 0; i < endPoints.size(); ++i){
-  //   cout << endPoints.size() << endl;
-  // }
-=======
   cout << "requests" << endl;
   for (int i = 0; i < requests.size(); ++i){
     cout << requests[i].idVideo << " " <<requests[i].idEndPoint << " " <<requests[i].numRequestsVideo  << endl;
@@ -251,7 +232,6 @@ int main(int argc, char const *argv[]) {
   for (unsigned int i = 0; i < endPoints.size(); ++i){
     cout << endPoints.size() << endl;
   }
->>>>>>> 5f17dc655c9b2bc7df7ff8ebae27f99a29d7b4ab
 
   return 0;
 }
