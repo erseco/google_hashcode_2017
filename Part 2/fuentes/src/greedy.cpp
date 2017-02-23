@@ -18,7 +18,7 @@ struct CacheReal{
   vector<int> videosEnCache;;
 };
 
-struct Cache{
+struct Cacpuhe{
   int id;
   int latencia;
 };
@@ -95,15 +95,16 @@ bool readAndFill(const char* path){
 
     videos = vector<int>(numVideos);
 
-    for (int i = 0; i < numVideos; ++i){
+    for (int i = 0; i < numVideos; i++){
         if(fscanf (f, "%i", &videos[i]) != 1){
             printf("Error reading file 6\n");
             return false;
         }
+
     }
 
     endPoints = vector<EndPoint>(numEndpoints);
-    for (int i = 0; i < numEndpoints; ++i){
+    for (int i = 0; i < numEndpoints; i++){
         if(fscanf (f, "%i", &endPoints[i].latenciaAlDatacenter) != 1){
             printf("Error reading file 7\n");
             return false;
@@ -133,7 +134,7 @@ bool readAndFill(const char* path){
     requests = vector<Request>(numRequests);
 
 
-    for (int i = 0; i < numRequests; ++i)
+    for (int i = 0; i < numRequests; i++)
     {
         if(fscanf (f, "%i", &requests[i].idVideo) != 1)
         {
