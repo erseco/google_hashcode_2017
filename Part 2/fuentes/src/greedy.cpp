@@ -94,15 +94,16 @@ bool readAndFill(const char* path){
 
     videos = vector<int>(numVideos);
 
-    for (int i = 0; i < numVideos; ++i){
+    for (int i = 0; i < numVideos; i++){
         if(fscanf (f, "%i", &videos[i]) != 1){
             printf("Error reading file 6\n");
             return false;
         }
+
     }
 
     endPoints = vector<EndPoint>(numEndpoints);
-    for (int i = 0; i < numEndpoints; ++i){
+    for (int i = 0; i < numEndpoints; i++){
         if(fscanf (f, "%i", &endPoints[i].latenciaAlDatacenter) != 1){
             printf("Error reading file 7\n");
             return false;
@@ -114,7 +115,7 @@ bool readAndFill(const char* path){
 
         endPoints[i].caches = vector<CacheConectada>(endPoints[i].numCaches);
 
-        for (int j = 0; j < endPoints[i].numCaches; ++i){
+        for (int j = 0; j < endPoints[i].numCaches; j++){
 
             if(fscanf (f, "%i", &endPoints[i].caches[j].id) != 1){
                 printf("Error reading file 9\n");
@@ -132,7 +133,7 @@ bool readAndFill(const char* path){
     requests = vector<Request>(numRequests);
 
 
-    for (int i = 0; i < numRequests; ++i)
+    for (int i = 0; i < numRequests; i++)
     {
         if(fscanf (f, "%i", &requests[i].idVideo) != 1)
         {
@@ -214,23 +215,23 @@ int main(int argc, char const *argv[]) {
     exit (1);
   }
   readAndFill(argv[1]);
-  cout << "requests" << endl;
-  for (int i = 0; i < requests.size(); ++i){
-    cout << requests[i].idVideo << " " <<requests[i].idEndPoint << " " <<requests[i].numRequestsVideo  << endl;
-  }
-  comprimeRequests();
-  cout << "requests Comprimidos" << endl;
-  for (int i = 0; i < requests.size(); ++i){
-    cout << requests[i].idVideo << " " <<requests[i].idEndPoint << " " <<requests[i].numRequestsVideo  << endl;
-  }
-  rellenaPedidosEnEndPoints();
-  CrearCaches();
-  // ordenarTodo();
+  // cout << "requests" << endl;
+  // for (int i = 0; i < requests.size(); ++i){
+  //   cout << requests[i].idVideo << " " <<requests[i].idEndPoint << " " <<requests[i].numRequestsVideo  << endl;
+  // }
+  // // comprimeRequests();
+  // cout << "requests Comprimidos" << endl;
+  // for (int i = 0; i < requests.size(); ++i){
+  //   cout << requests[i].idVideo << " " <<requests[i].idEndPoint << " " <<requests[i].numRequestsVideo  << endl;
+  // }
+  // rellenaPedidosEnEndPoints();
+  // CrearCaches();
+  // // ordenarTodo();
 
-  cout << "prueba" << endl;
-  for (unsigned int i = 0; i < endPoints.size(); ++i){
-    cout << endPoints.size() << endl;
-  }
+  // cout << "prueba" << endl;
+  // for (unsigned int i = 0; i < endPoints.size(); ++i){
+  //   cout << endPoints.size() << endl;
+  // }
 
 
   return 0;
