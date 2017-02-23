@@ -153,8 +153,12 @@ class Pizza:
         #     individual[slice] = (a, b, c, d-1)
         return individual,
 
+    # check if a solution is valid
+    def check_if_ok(self, individual):
+        pass
+
     def mate(self, ind1, ind2):
-        # TO-DO
+        # to-do
         return ind1, ind2
 
 if __name__ == '__main__':
