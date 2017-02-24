@@ -1,9 +1,0 @@
-Greedy Algorithm for generate solutions
-
-Instructions:
-
-- first compile using make
-
-- execute the different scripts in /scripts directory, p.e. ./medium.sh 2000 for 2k iterations
-
-- the results will appear in /sol directory, the score is the first part of the filename
